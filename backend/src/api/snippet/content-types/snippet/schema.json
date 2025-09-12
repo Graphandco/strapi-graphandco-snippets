@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "snippets",
+  "info": {
+    "singularName": "snippet",
+    "pluralName": "snippets",
+    "displayName": "snippet"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  }
+}

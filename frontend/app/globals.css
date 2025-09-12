@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+   --background: #000;
+   --foreground: hsl(224, 64%, 80%);
+   --accent: #1e3a8a;
+}
+
+@theme inline {
+   --color-background: var(--background);
+   --color-foreground: var(--foreground);
+   --color-accent: var(--accent);
+   --font-sans: var(--font-geist-sans);
+   --font-mono: var(--font-geist-mono);
+   --font-sigmar: var(--font-sigmar);
+   --font-anton: var(--font-anton);
+   --font-poiret: var(--font-poiret-one);
+   /* --font-bebas: var(--font-bebas-neue); */
+}
+
+body {
+   background: var(--background);
+   color: var(--foreground);
+   font-family: var(--font-poiret);
+   font-weight: 600;
+}
+.mask-with-browser-support {
+   mask: linear-gradient(black, black), linear-gradient(black, black);
+   mask-clip: content-box, border-box;
+   mask-composite: exclude;
+   /* -webkit-mask: linear-gradient(black, black) content-box,
+      linear-gradient(black, black); */
+   -webkit-mask-clip: content-box, border-box;
+   -webkit-mask-composite: xor;
+}
