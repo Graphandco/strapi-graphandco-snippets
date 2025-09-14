@@ -131,22 +131,29 @@ export async function createSnippetAction(prevState, formData) {
 }
 
 // Mettre à jour un snippet
-export async function updateSnippetAction(id, formData) {
+export async function updateSnippetAction(prevState, formData) {
    try {
+      const id = formData.get("id");
       const title = formData.get("title");
       const code = formData.get("code");
       const language = formData.get("language");
       const description = formData.get("description");
+      const favorite = formData.get("favorite") === "true";
 
       const data = await authenticatedRequest(`/snippets/${id}`, {
          method: "PUT",
          body: JSON.stringify({
-            data: { title, code, language, description },
+            data: { title, code, language, description, favorite },
          }),
       });
 
       revalidatePath("/");
-      return { success: true, data: data?.data };
+      revalidateTag("snippets");
+      return {
+         success: true,
+         message: "Snippet mis à jour avec succès",
+         data: data?.data,
+      };
    } catch (error) {
       return { success: false, error: error.message };
    }

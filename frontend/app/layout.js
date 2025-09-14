@@ -2,6 +2,7 @@ import { Geist, Geist_Mono, Sigmar, Anton, Poiret_One } from "next/font/google";
 import "./globals.css";
 import { SquaresBackground } from "@/components/SquaresBackground";
 import Header from "@/components/Header";
+import { Toaster } from "@/components/ui/sonner";
 // Server Actions remplacent les contexts
 
 const geistSans = Geist({
@@ -48,6 +49,7 @@ export default function RootLayout({ children }) {
             <Header />
             <main>{children}</main>
             <SquaresBackground />
+            <Toaster />
          </body>
       </html>
    );
