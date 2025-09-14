@@ -1,18 +1,34 @@
 {
-  "kind": "collectionType",
-  "collectionName": "snippets",
-  "info": {
-    "singularName": "snippet",
-    "pluralName": "snippets",
-    "displayName": "snippet"
-  },
-  "options": {
-    "draftAndPublish": true
-  },
-  "pluginOptions": {},
-  "attributes": {
-    "title": {
-      "type": "string"
-    }
-  }
+   "kind": "collectionType",
+   "collectionName": "snippets",
+   "info": {
+      "singularName": "snippet",
+      "pluralName": "snippets",
+      "displayName": "snippets"
+   },
+   "options": {
+      "draftAndPublish": true
+   },
+   "pluginOptions": {},
+   "attributes": {
+      "title": {
+         "type": "string",
+         "required": true
+      },
+      "code": {
+         "type": "text"
+      },
+      "language": {
+         "type": "enumeration",
+         "default": "text",
+         "enum": ["javascript", "css", "php", "smarty", "bash", "text", "mysql"]
+      },
+      "description": {
+         "type": "text"
+      },
+      "favorite": {
+         "type": "boolean",
+         "default": false
+      }
+   }
 }

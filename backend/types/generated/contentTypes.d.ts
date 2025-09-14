@@ -376,7 +376,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiSnippetSnippet extends Struct.CollectionTypeSchema {
   collectionName: 'snippets';
   info: {
-    displayName: 'snippet';
+    displayName: 'snippets';
     pluralName: 'snippets';
     singularName: 'snippet';
   };
@@ -384,9 +384,16 @@ export interface ApiSnippetSnippet extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    code: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    favorite: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    language: Schema.Attribute.Enumeration<
+      ['javascript', 'css', 'php', 'smarty', 'bash', 'text', 'mysql']
+    > &
+      Schema.Attribute.DefaultTo<'text'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -394,7 +401,7 @@ export interface ApiSnippetSnippet extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -856,9 +863,9 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
+    avatar: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;

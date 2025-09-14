@@ -1,47 +1,34 @@
-"use client";
+import { getCurrentUser } from "../app/actions/auth";
+import Link from "next/link";
 
-import { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import AuthModal from "./auth/AuthModal";
-import UserProfile from "./auth/UserProfile";
-
-export default function Header() {
-   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-   const { isAuthenticated, isLoading } = useAuth();
+export default async function Header() {
+   const user = await getCurrentUser();
 
    return (
       <>
          <header className="py-4 flex items-center justify-between gap-10 mb-10">
-            <div className="text-3xl text-white font-poiret">snippets'n'co</div>
+            <Link
+               href="/"
+               className="text-4xl text-white font-poiret underline underline-offset-5"
+            >
+               snippets'n'co
+            </Link>
 
-            <div className="flex items-center gap-4">
-               <input
-                  type="text"
-                  placeholder="Rechercher..."
-                  className="border-b border-white/60 focus:border-white/100 py-1 pl-1.5 pr-24 !outline-none placeholder-white bg-transparent"
-               />
-
-               {!isLoading && (
+            <Link href="/dashboard" className="flex items-center gap-1">
+               {user && (
                   <>
-                     {isAuthenticated ? (
-                        <UserProfile />
-                     ) : (
-                        <button
-                           onClick={() => setIsAuthModalOpen(true)}
-                           className="px-4 py-2 text-white border border-white/60 rounded hover:bg-white/10 transition-colors"
-                        >
-                           Connexion
-                        </button>
+                     {user.avatar && (
+                        <img
+                           src={`http://localhost:1337${user.avatar.url}`}
+                           alt={`Avatar de ${user.username}`}
+                           className="w-8 h-8 rounded-full object-cover"
+                        />
                      )}
+                     <span className="text-white">{user.username}</span>
                   </>
                )}
-            </div>
+            </Link>
          </header>
-
-         <AuthModal
-            isOpen={isAuthModalOpen}
-            onClose={() => setIsAuthModalOpen(false)}
-         />
       </>
    );
 }
