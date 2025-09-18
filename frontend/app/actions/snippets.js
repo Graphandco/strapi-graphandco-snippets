@@ -62,7 +62,7 @@ async function authenticatedRequest(endpoint, options = {}) {
 // Récupérer tous les snippets (triés avec les favoris en premier)
 export async function getSnippetsAction() {
    try {
-      const data = await authenticatedRequest("/snippets", {
+      const data = await authenticatedRequest("/snippets?populate=category", {
          next: { tags: ["snippets"] },
       });
       const rawSnippets = data?.data || [];
@@ -76,6 +76,16 @@ export async function getSnippetsAction() {
          language: snippet.language,
          description: snippet.description,
          favorite: snippet.favorite || false,
+         smallWidth: snippet.smallWidth || false,
+         category: snippet.category
+            ? {
+                 id: snippet.category.id,
+                 documentId: snippet.category.documentId,
+                 name: snippet.category.name,
+                 slug: snippet.category.slug,
+                 color: snippet.category.color,
+              }
+            : null,
          createdAt: snippet.createdAt,
          updatedAt: snippet.updatedAt,
       }));
@@ -111,11 +121,21 @@ export async function createSnippetAction(prevState, formData) {
       const language = formData.get("language");
       const description = formData.get("description");
       const favorite = formData.get("favorite") === "true";
+      const smallWidth = formData.get("smallWidth") === "true";
+      const categoryId = formData.get("categoryId");
 
       const data = await authenticatedRequest("/snippets", {
          method: "POST",
          body: JSON.stringify({
-            data: { title, code, language, description, favorite },
+            data: {
+               title,
+               code,
+               language,
+               description,
+               favorite,
+               smallWidth,
+               category: categoryId ? { connect: [categoryId] } : undefined,
+            },
          }),
       });
 
@@ -139,11 +159,21 @@ export async function updateSnippetAction(prevState, formData) {
       const language = formData.get("language");
       const description = formData.get("description");
       const favorite = formData.get("favorite") === "true";
+      const smallWidth = formData.get("smallWidth") === "true";
+      const categoryId = formData.get("categoryId");
 
       const data = await authenticatedRequest(`/snippets/${id}`, {
          method: "PUT",
          body: JSON.stringify({
-            data: { title, code, language, description, favorite },
+            data: {
+               title,
+               code,
+               language,
+               description,
+               favorite,
+               smallWidth,
+               category: categoryId ? { connect: [categoryId] } : undefined,
+            },
          }),
       });
 

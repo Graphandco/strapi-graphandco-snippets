@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/app/actions/auth";
 import { getSnippetsAction } from "@/app/actions/snippets";
+import { getCategoriesAction } from "@/app/actions/categories";
 import AuthModal from "@/components/auth/AuthModal";
 import SnippetsList from "@/components/snippets/SnippetsList";
 
@@ -20,11 +21,14 @@ export default async function Home() {
       );
    }
 
-   const snippets = await getSnippetsAction();
+   const [snippets, categories] = await Promise.all([
+      getSnippetsAction(),
+      getCategoriesAction(),
+   ]);
 
    return (
       <div className="space-y-8">
-         <SnippetsList snippets={snippets} />
+         <SnippetsList snippets={snippets} categories={categories} />
       </div>
    );
 }

@@ -8,9 +8,16 @@ import { toast } from "sonner";
 
 const initialState = { success: false, error: null };
 
-export default function EditSnippetModal({ isOpen, onClose, snippet }) {
+export default function EditSnippetModal({
+   isOpen,
+   onClose,
+   snippet,
+   categories = [],
+}) {
    const [isFavorite, setIsFavorite] = useState(false);
+   const [isSmallWidth, setIsSmallWidth] = useState(false);
    const [isSubmitting, setIsSubmitting] = useState(false);
+   const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
    const handleSubmit = async (formData) => {
       setIsSubmitting(true);
@@ -48,6 +55,8 @@ export default function EditSnippetModal({ isOpen, onClose, snippet }) {
    useEffect(() => {
       if (isOpen && snippet) {
          setIsFavorite(snippet.favorite || false);
+         setIsSmallWidth(snippet.smallWidth || false);
+         setSelectedCategoryId(snippet.category?.id || "");
       }
    }, [isOpen, snippet]);
 
@@ -154,6 +163,35 @@ export default function EditSnippetModal({ isOpen, onClose, snippet }) {
                   </div>
 
                   <div>
+                     <label
+                        htmlFor="categoryId"
+                        className="block text-sm font-medium text-slate-300 mb-2"
+                     >
+                        Catégorie
+                     </label>
+                     <select
+                        id="categoryId"
+                        name="categoryId"
+                        value={selectedCategoryId}
+                        onChange={(e) => setSelectedCategoryId(e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                     >
+                        <option value="" className="bg-slate-800">
+                           Aucune catégorie
+                        </option>
+                        {categories.map((category) => (
+                           <option
+                              key={category.id}
+                              value={category.id}
+                              className="bg-slate-800"
+                           >
+                              {category.name}
+                           </option>
+                        ))}
+                     </select>
+                  </div>
+
+                  <div>
                      <div className="flex items-center justify-between">
                         <label
                            htmlFor="favorite"
@@ -171,6 +209,27 @@ export default function EditSnippetModal({ isOpen, onClose, snippet }) {
                         type="hidden"
                         name="favorite"
                         value={isFavorite.toString()}
+                     />
+                  </div>
+
+                  <div>
+                     <div className="flex items-center justify-between">
+                        <label
+                           htmlFor="smallWidth"
+                           className="block text-sm font-medium text-slate-300"
+                        >
+                           Largeur réduite
+                        </label>
+                        <Switch
+                           id="smallWidth"
+                           checked={isSmallWidth}
+                           onCheckedChange={setIsSmallWidth}
+                        />
+                     </div>
+                     <input
+                        type="hidden"
+                        name="smallWidth"
+                        value={isSmallWidth.toString()}
                      />
                   </div>
 

@@ -1,8 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
-   --background: #000;
+   --background: #fff;
    --foreground: hsl(224, 64%, 80%);
    --card: oklch(0.205 0 0);
    --card-foreground: oklch(0.985 0 0);
@@ -43,7 +45,7 @@
    --font-mono: var(--font-geist-mono);
    --font-sigmar: var(--font-sigmar);
    --font-anton: var(--font-anton);
-   --font-poiret: var(--font-poiret-one);
+   --font-poiret: var(--font-poiret);
    --color-sidebar-ring: var(--sidebar-ring);
    --color-sidebar-border: var(--sidebar-border);
    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -80,10 +82,22 @@
 }
 body {
    @apply bg-background text-foreground;
-   font-family: var(--font-poiret);
-   font-weight: 600;
-   /* Votre gradient personnalisé */
+   font-family: var(--font-sans);
+   /* font-weight: 600; */
    min-height: 100vh;
+   overflow-y: scroll !important;
+   scrollbar-width: thin;
+   scrollbar-color: var(--primary) var(--background);
+   background-image: url("/bg.svg");
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   /* background-blend-mode: multiply;
+   background-color: rgba(0, 0, 0, 0.5); */
+   backdrop-filter: blur(10px);
+   -webkit-backdrop-filter: blur(10px);
+   -webkit-mask-composite: xor;
 }
 .mask-with-browser-support {
    mask: linear-gradient(black, black), linear-gradient(black, black);
@@ -106,5 +120,30 @@ body {
          "Roboto Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
       font-weight: 300;
       font-variation-settings: "wght" 300;
+   }
+
+   /* Police Poiret One */
+   .font-poiret {
+      font-family: var(--font-poiret);
+   }
+}
+
+.dark {
+   --sidebar: hsl(240 5.9% 10%);
+   --sidebar-foreground: hsl(240 4.8% 95.9%);
+   --sidebar-primary: hsl(224.3 76.3% 48%);
+   --sidebar-primary-foreground: hsl(0 0% 100%);
+   --sidebar-accent: hsl(240 3.7% 15.9%);
+   --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+   --sidebar-border: hsl(240 3.7% 15.9%);
+   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+   }
+  body {
+    @apply bg-background text-foreground;
    }
 }

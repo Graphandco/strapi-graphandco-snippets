@@ -7,12 +7,14 @@ import { Switch } from "../ui/switch";
 
 const initialState = { success: false, error: null };
 
-export default function AddSnippetModal({ isOpen, onClose }) {
+export default function AddSnippetModal({ isOpen, onClose, categories = [] }) {
    const [state, formAction] = useActionState(
       createSnippetAction,
       initialState
    );
    const [isFavorite, setIsFavorite] = useState(false);
+   const [isSmallWidth, setIsSmallWidth] = useState(false);
+   const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
    // Fermer la modal en cas de succès
    useEffect(() => {
@@ -141,6 +143,35 @@ export default function AddSnippetModal({ isOpen, onClose }) {
                   </div>
 
                   <div>
+                     <label
+                        htmlFor="categoryId"
+                        className="block text-sm font-medium text-slate-300 mb-2"
+                     >
+                        Catégorie
+                     </label>
+                     <select
+                        id="categoryId"
+                        name="categoryId"
+                        value={selectedCategoryId}
+                        onChange={(e) => setSelectedCategoryId(e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                     >
+                        <option value="" className="bg-slate-800">
+                           Aucune catégorie
+                        </option>
+                        {categories.map((category) => (
+                           <option
+                              key={category.id}
+                              value={category.id}
+                              className="bg-slate-800"
+                           >
+                              {category.name}
+                           </option>
+                        ))}
+                     </select>
+                  </div>
+
+                  <div>
                      <div className="flex items-center justify-between">
                         <label
                            htmlFor="favorite"
@@ -158,6 +189,27 @@ export default function AddSnippetModal({ isOpen, onClose }) {
                         type="hidden"
                         name="favorite"
                         value={isFavorite.toString()}
+                     />
+                  </div>
+
+                  <div>
+                     <div className="flex items-center justify-between">
+                        <label
+                           htmlFor="smallWidth"
+                           className="block text-sm font-medium text-slate-300"
+                        >
+                           Largeur réduite
+                        </label>
+                        <Switch
+                           id="smallWidth"
+                           checked={isSmallWidth}
+                           onCheckedChange={setIsSmallWidth}
+                        />
+                     </div>
+                     <input
+                        type="hidden"
+                        name="smallWidth"
+                        value={isSmallWidth.toString()}
                      />
                   </div>
 

@@ -43,12 +43,14 @@ export default function RootLayout({ children }) {
    return (
       <html lang="en">
          <body
-            className={`${geistSans.variable} ${geistMono.variable} ${sigmar.variable} ${anton.variable} ${poiretOne.variable} antialiased max-w-[1280px] mx-auto px-[5vw]`}
+            className={`${geistSans.variable} ${geistMono.variable} ${sigmar.variable} ${anton.variable} ${poiretOne.variable} antialiased`}
             suppressHydrationWarning={true}
          >
             <Header />
-            <main>{children}</main>
-            <SquaresBackground />
+            <main className="max-w-[1280px] mx-auto px-[5vw] pb-10">
+               {children}
+            </main>
+            {/* <SquaresBackground /> */}
             <Toaster />
          </body>
       </html>
